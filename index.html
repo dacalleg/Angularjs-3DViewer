@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en" ng-app="myApp">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body ng-cloak>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				</button>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li class="dropdown" ng-controller="CameraController">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Visualizza <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li class="dropdown-header">Viste Ortogonali</li>
+							<li><a ng-click="topView()" href="#">Dall'alto</a></li>
+							<li><a href="#">Dal Basso</a></li>
+							<li><a href="#">Destra</a></li>
+							<li><a href="#">Sinistra</a></li>
+							<li><a href="#">Davanti</a></li>
+							<li><a href="#">Dietro</a></li>
+							<li class="divider"></li>
+							<li><a ng-click="centerView()" href="#">Centra Vista</a></li>
+							<li class="divider"></li>
+							<li><a ng-click="centerView()" href="#">Visualizza Assi</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div ng-controller="CameraController" class="hidden">
+		<button ng-click="centerView()" class="front">Recenter View</button>
+		<button ng-click="topView()" class="front">Top View</button>
+		<input type="checkbox" ng-model="showaxes" ng-change="showAxses()">OK
+	</div>
+	<div class="scene-container">
+		<div ng-webgl class="fullsize"></div>
+	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r69/three.min.js"></script>
+	<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+	<script src="js/bootstrap/bootstrap.min.js"></script>
+	<script src="js/angular/angular.min.js"></script>
+	
+	<script src="app/app.js"></script>
+	<script src="app/controller/controller.js"></script>
+	<script src="app/service/CameraService.js"></script>	
+	<script src="app/service/SceneService.js"></script>	
+	<script src="app/service/Object3DService.js"></script>	
+	<script src="app/directive/SceneDirective.js"></script>	
+	
+</body>
+
+</html>

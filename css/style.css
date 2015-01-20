@@ -1,0 +1,46 @@
+.ng-cloak
+{
+	display:none;
+}
+
+html,body,.scene-container
+{
+	height:100%;
+	width:100%;
+	padding:0;
+	margin:0;
+	overflow:hidden;
+}
+
+.scene-container
+{
+	position:relative;
+}
+
+.fullsize
+{
+	width:100%;
+	height:100%;
+	position:absolute;
+	left:0;
+	top:0;
+	z-index:0;
+}
+
+.front
+{
+	z-index:10;
+}
+
+.navbar
+{
+	margin-bottom:0;
+}
+
+.nav>li>a {
+	padding: 10px 15px;
+}
+
+.navbar {
+	min-height: 0;
+}

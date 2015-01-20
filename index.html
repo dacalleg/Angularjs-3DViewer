@@ -26,15 +26,15 @@
 						<ul class="dropdown-menu" role="menu">
 							<li class="dropdown-header">Viste Ortogonali</li>
 							<li><a ng-click="topView()" href="#">Dall'alto</a></li>
-							<li><a href="#">Dal Basso</a></li>
-							<li><a href="#">Destra</a></li>
-							<li><a href="#">Sinistra</a></li>
-							<li><a href="#">Davanti</a></li>
-							<li><a href="#">Dietro</a></li>
+							<li><a ng-click="bottomView()" href="#">Dal Basso</a></li>
+							<li><a ng-click="rightView()" href="#">Destra</a></li>
+							<li><a ng-click="leftView()" href="#">Sinistra</a></li>
+							<li><a ng-click="frontView()" href="#">Davanti</a></li>
+							<li><a ng-click="backView()" href="#">Dietro</a></li>
 							<li class="divider"></li>
 							<li><a ng-click="centerView()" href="#">Centra Vista</a></li>
 							<li class="divider"></li>
-							<li><a ng-click="centerView()" href="#">Visualizza Assi</a></li>
+							<li><a ng-click="showAxses()" href="#"><span class="glyphicon glyphicon-ok" ng-show="showaxes"></span> Visualizza Assi</a></li>
 						</ul>
 					</li>
 				</ul>

@@ -548,7 +548,7 @@ angular.module('myApp')
 		this.centerView = function()
 		{
 			var view_tween = new TWEEN.Tween({ x: this.target.x, y: this.target.y, z: this.target.z })
-            .to( { x: 0, y: 0, z: 0 }, 2000 )
+            .to( { x: 0, y: 0, z: 0 }, 1000 )
             .easing( TWEEN.Easing.Linear.None )
             .onUpdate( function () {
 				scope.target.setX(this.x);
@@ -562,27 +562,47 @@ angular.module('myApp')
 		this.topView = function()
 		{
 			this.centerView();
+			this.changePosition(0,10,0);
+		}
+		
+		this.bottomView = function()
+		{
+			this.centerView();
+			this.changePosition(0,-10,0);
+		}
+		
+		this.frontView = function()
+		{
+			this.centerView();
+			this.changePosition(0,0,-10);
+		}
+		
+		this.backView = function()
+		{
+			this.centerView();
+			this.changePosition(0,0,10);
+		}
+		this.leftView = function()
+		{
+			this.centerView();
+			this.changePosition(-10,0,0);
+		}
+		this.rightView = function()
+		{
+			this.centerView();
+			this.changePosition(10,0,0);
+		}
+		
+		this.changePosition = function(x,y,z)
+		{
 			var position_tween = new TWEEN.Tween({ x: this.object.position.x, y: this.object.position.y, z:this.object.position.z })
-            .to( { x: 0, y: 10, z: 0 }, 2000 )
+            .to( { x: x, y: y, z: z }, 1000 )
             .easing( TWEEN.Easing.Linear.None )
             .onUpdate( function () {
 				scope.object.position.set(this.x,this.y,this.z);
                 scope.update();
             })
 			position_tween.start();
-		}
-		
-		this.bottomView = function()
-		{
-			this.target = new THREE.Vector3();
-			/*var tween = new TWEEN.Tween({ x: this.object.position.x, y: this.object.position.y, z: this.object.position.z })
-            .to( { x: 0, y: 0, z: -10 }, 2000 )
-            .easing( TWEEN.Easing.Elastic.InOut )
-            .onUpdate( function () {
-				scope.object.position.set(this.x,this.y,this.z);
-                scope.update();
-            })
-            .start();*/
 		}
 		
 		this.onResize = function(width,height)

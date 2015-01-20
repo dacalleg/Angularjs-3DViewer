@@ -13,7 +13,28 @@ angular.module('myApp')
 			CameraService.topView();
 		};
 		
+		$scope.frontView = function() {
+			CameraService.frontView();
+		};
+		
+		$scope.bottomView = function() {
+			CameraService.bottomView();
+		};
+		
+		$scope.backView = function() {
+			CameraService.backView();
+		};
+		
+		$scope.leftView = function() {
+			CameraService.leftView();
+		};
+		
+		$scope.rightView = function() {
+			CameraService.rightView();
+		};
+		
 		$scope.showAxses = function() {
+			$scope.showaxes = !$scope.showaxes;
 			SceneService.showAxses($scope.showaxes);
 		};
 	}

@@ -15,6 +15,7 @@ angular.module('myApp')
 		{
 			requestAnimationFrame(this.render.bind(this));
 			renderer.render(scene, CameraService.getCamera());
+			TWEEN.update();
 		}
 		this.onResize = function(width,height)
 		{

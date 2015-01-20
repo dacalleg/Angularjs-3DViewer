@@ -196,7 +196,6 @@ angular.module('myApp')
 			var theta = Math.atan2( offset.x, offset.z );
 
 			// angle from y-axis
-
 			var phi = Math.atan2( Math.sqrt( offset.x * offset.x + offset.z * offset.z ), offset.y );
 
 			if ( this.autoRotate ) {
@@ -548,22 +547,42 @@ angular.module('myApp')
 		
 		this.centerView = function()
 		{
-			this.target = new THREE.Vector3();
-			this.update();
+			var view_tween = new TWEEN.Tween({ x: this.target.x, y: this.target.y, z: this.target.z })
+            .to( { x: 0, y: 0, z: 0 }, 2000 )
+            .easing( TWEEN.Easing.Linear.None )
+            .onUpdate( function () {
+				scope.target.setX(this.x);
+				scope.target.setY(this.y);
+				scope.target.setZ(this.z);
+                scope.update();
+            });
+			view_tween.start();
 		}
 		
 		this.topView = function()
 		{
-			this.object.position.set(0,0,10);
-			this.target = new THREE.Vector3();
-			this.update();
+			this.centerView();
+			var position_tween = new TWEEN.Tween({ x: this.object.position.x, y: this.object.position.y, z:this.object.position.z })
+            .to( { x: 0, y: 10, z: 0 }, 2000 )
+            .easing( TWEEN.Easing.Linear.None )
+            .onUpdate( function () {
+				scope.object.position.set(this.x,this.y,this.z);
+                scope.update();
+            })
+			position_tween.start();
 		}
 		
 		this.bottomView = function()
 		{
-			this.object.position.set(0,0,-10);
 			this.target = new THREE.Vector3();
-			this.update();
+			/*var tween = new TWEEN.Tween({ x: this.object.position.x, y: this.object.position.y, z: this.object.position.z })
+            .to( { x: 0, y: 0, z: -10 }, 2000 )
+            .easing( TWEEN.Easing.Elastic.InOut )
+            .onUpdate( function () {
+				scope.object.position.set(this.x,this.y,this.z);
+                scope.update();
+            })
+            .start();*/
 		}
 		
 		this.onResize = function(width,height)

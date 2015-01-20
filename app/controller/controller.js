@@ -1,36 +1,36 @@
 "use strict";
 
 angular.module('myApp')
-	.controller("CameraController", function ($scope, CameraService, SceneService) 
+	.controller("CameraController", function ($scope, CameraObject3DService, SceneService) 
 	{
 		$scope.showaxes = SceneService.axsesVisible();
 		
 		$scope.centerView = function() {
-			CameraService.centerView();
+			CameraObject3DService.centerView();
 		};
 		
 		$scope.topView = function() {
-			CameraService.topView();
+			CameraObject3DService.topView();
 		};
 		
 		$scope.frontView = function() {
-			CameraService.frontView();
+			CameraObject3DService.frontView();
 		};
 		
 		$scope.bottomView = function() {
-			CameraService.bottomView();
+			CameraObject3DService.bottomView();
 		};
 		
 		$scope.backView = function() {
-			CameraService.backView();
+			CameraObject3DService.backView();
 		};
 		
 		$scope.leftView = function() {
-			CameraService.leftView();
+			CameraObject3DService.leftView();
 		};
 		
 		$scope.rightView = function() {
-			CameraService.rightView();
+			CameraObject3DService.rightView();
 		};
 		
 		$scope.showAxses = function() {

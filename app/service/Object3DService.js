@@ -2,15 +2,14 @@
 
 angular.module('myApp')
 	.service('Object3DService', function(SceneService) {
-		var mesh,geometry,loader;
+		var mesh,loader;
 		
 		var init = function()
 		{
 			loader = new THREE.JSONLoader();
 		}
-		this.loadGeometry = function(_geometry)
+		this.loadGeometry = function(geometry)
 		{
-			geometry = _geometry;
 			if(mesh)
 				SceneService.getScene().remove(mesh);
 			mesh = new THREE.Mesh( geometry, new THREE.MeshNormalMaterial({color: 0x00ff00}));
@@ -20,6 +19,12 @@ angular.module('myApp')
 			mesh.position.z = 0;
 			
 			SceneService.getScene().add( mesh );
+			geometry.computeBoundingBox();
+			geometry.computeBoundingSphere();
+		}
+		this.getMesh = function()
+		{
+			return mesh;
 		}
 		init();
 	}

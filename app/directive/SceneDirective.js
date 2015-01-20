@@ -45,7 +45,7 @@ angular.module('myApp')
 					}, 
 				false);
 				
-				var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+				var geometry = new THREE.BoxGeometry( 1, 7, 1 );
 				
 				Object3DService.loadGeometry(geometry);
 				

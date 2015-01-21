@@ -1,15 +1,13 @@
 "use strict";
 
 angular.module('myApp')
-	.service('CameraService', function($rootScope) {
+	.service('CameraService', function($rootScope, ConfigurationService) {
 		this.object = null;
 		this.domElement = null;
 		this.localElement = null;
 
 		// API
-
-		// Set to false to disable this control
-		this.enabled = true;
+		var configuration = ConfigurationService.getConfig();
 
 		// "target" sets the location of focus, where the control orbits around
 		// and where it pans with respect to.
@@ -17,39 +15,7 @@ angular.module('myApp')
 		// center is old, deprecated; use "target" instead
 		this.center = this.target;
 
-		// This option actually enables dollying in and out; left as "zoom" for
-		// backwards compatibility
-		this.noZoom = false;
-		this.zoomSpeed = 1.0;
-		// Limits to how far you can dolly in and out
-		this.minDistance = 0;
-		this.maxDistance = Infinity;
-
-		// Set to true to disable this control
-		this.noRotate = false;
-		this.rotateSpeed = 1.0;
-
-		// Set to true to disable this control
-		this.noPan = false;
-		this.keyPanSpeed = 7.0;	// pixels moved per arrow key push
-
-		// Set to true to automatically rotate around the target
-		this.autoRotate = false;
-		this.autoRotateSpeed = 2.0; // 30 seconds per round when fps is 60
-
-		// How far you can orbit vertically, upper and lower limits.
-		// Range is 0 to Math.PI radians.
-		this.minPolarAngle = 0; // radians
-		this.maxPolarAngle = Math.PI; // radians
-
-		// Set to true to disable use of the keys
-		this.noKeys = false;
-		// The four arrow keys
-		this.keys = { LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40 };
-
-		////////////
 		// internals
-
 		var scope = this;
 
 		var EPS = 0.000001;
@@ -198,7 +164,7 @@ angular.module('myApp')
 			// angle from y-axis
 			var phi = Math.atan2( Math.sqrt( offset.x * offset.x + offset.z * offset.z ), offset.y );
 
-			if ( this.autoRotate ) {
+			if ( configuration.controls.autoRotate ) {
 
 				this.rotateLeft( getAutoRotationAngle() );
 
@@ -208,7 +174,7 @@ angular.module('myApp')
 			phi += phiDelta;
 
 			// restrict phi to be between desired limits
-			phi = Math.max( this.minPolarAngle, Math.min( this.maxPolarAngle, phi ) );
+			phi = Math.max( configuration.controls.minPolarAngle, Math.min( configuration.controls.maxPolarAngle, phi ) );
 
 			// restrict phi to be betwee EPS and PI-EPS
 			phi = Math.max( EPS, Math.min( Math.PI - EPS, phi ) );
@@ -216,7 +182,7 @@ angular.module('myApp')
 			var radius = offset.length() * scale;
 
 			// restrict radius to be between desired limits
-			radius = Math.max( this.minDistance, Math.min( this.maxDistance, radius ) );
+			radius = Math.max( configuration.controls.minDistance, Math.min( configuration.controls.maxDistance, radius ) );
 			
 			// move target to panned location
 			this.target.add( pan );
@@ -241,30 +207,30 @@ angular.module('myApp')
 		};
 
 		function getAutoRotationAngle() {
-			return 2 * Math.PI / 60 / 60 * scope.autoRotateSpeed;
+			return 2 * Math.PI / 60 / 60 * configuration.controls.autoRotateSpeed;
 		}
 
 		function getZoomScale() {
-			return Math.pow( 0.95, scope.zoomSpeed );
+			return Math.pow( 0.95, configuration.controls.zoomSpeed );
 		}
 
 		this.onMouseDown = function ( event ) {
 
-			if ( scope.enabled === false ) { return; }
+			if ( configuration.mouseControlsEnabled === false ) { return; }
 			event.preventDefault();
 
 			if ( event.button === 0 ) {
-				if ( scope.noRotate === true ) { return; }
+				if ( configuration.controls.noRotate === true ) { return; }
 				state = STATE.ROTATE;
 				rotateStart.set( event.clientX, event.clientY );
 
 			} else if ( event.button === 1 ) {
-				if ( scope.noZoom === true ) { return; }
+				if ( configuration.controls.noZoom === true ) { return; }
 				state = STATE.DOLLY;
 				dollyStart.set( event.clientX, event.clientY );
 
 			} else if ( event.button === 2 ) {
-				if ( scope.noPan === true ) { return; }
+				if ( configuration.controls.noPan === true ) { return; }
 				state = STATE.PAN;
 				panStart.set( event.clientX, event.clientY );
 
@@ -278,7 +244,7 @@ angular.module('myApp')
 
 		function onMouseMove( event ) {
 
-			if ( scope.enabled === false ) return;
+			if ( configuration.mouseControlsEnabled === false ) return;
 
 			event.preventDefault();
 
@@ -286,21 +252,21 @@ angular.module('myApp')
 
 			if ( state === STATE.ROTATE ) {
 
-				if ( scope.noRotate === true ) return;
+				if ( configuration.controls.noRotate === true ) return;
 
 				rotateEnd.set( event.clientX, event.clientY );
 				rotateDelta.subVectors( rotateEnd, rotateStart );
 
 				// rotating across whole screen goes 360 degrees around
-				scope.rotateLeft( 2 * Math.PI * rotateDelta.x / element.clientWidth * scope.rotateSpeed );
+				scope.rotateLeft( 2 * Math.PI * rotateDelta.x / element.clientWidth * configuration.controls.rotateSpeed );
 				// rotating up and down along whole screen attempts to go 360, but limited to 180
-				scope.rotateUp( 2 * Math.PI * rotateDelta.y / element.clientHeight * scope.rotateSpeed );
+				scope.rotateUp( 2 * Math.PI * rotateDelta.y / element.clientHeight * configuration.controls.rotateSpeed );
 
 				rotateStart.copy( rotateEnd );
 
 			} else if ( state === STATE.DOLLY ) {
 
-				if ( scope.noZoom === true ) return;
+				if ( configuration.controls.noZoom === true ) return;
 
 				dollyEnd.set( event.clientX, event.clientY );
 				dollyDelta.subVectors( dollyEnd, dollyStart );
@@ -319,7 +285,7 @@ angular.module('myApp')
 
 			} else if ( state === STATE.PAN ) {
 
-				if ( scope.noPan === true ) return;
+				if ( configuration.controls.noPan === true ) return;
 
 				panEnd.set( event.clientX, event.clientY );
 				panDelta.subVectors( panEnd, panStart );
@@ -337,7 +303,7 @@ angular.module('myApp')
 
 		function onMouseUp( /* event */ ) {
 
-			if ( scope.enabled === false ) return;
+			if ( configuration.mouseControlsEnabled === false ) return;
 
 			// Greggman fix: https://github.com/greggman/three.js/commit/fde9f9917d6d8381f06bf22cdff766029d1761be
 			scope.domElement.removeEventListener( 'mousemove', onMouseMove, false );
@@ -349,7 +315,7 @@ angular.module('myApp')
 
 		this.onMouseWheel = function( event ) {
 
-			if ( scope.enabled === false || scope.noZoom === true ) return;
+			if ( configuration.mouseControlsEnabled === false || configuration.controls.noZoom === true ) return;
 
 			var delta = 0;
 
@@ -371,9 +337,9 @@ angular.module('myApp')
 
 		this.onKeyDown = function( event ) {
 
-			if ( scope.enabled === false ) { return; }
-			if ( scope.noKeys === true ) { return; }
-			if ( scope.noPan === true ) { return; }
+			if ( configuration.mouseControlsEnabled === false ) { return; }
+			if ( configuration.controls.noKeys === true ) { return; }
+			if ( configuration.controls.noPan === true ) { return; }
 
 			// pan a pixel - I guess for precise positioning?
 			// Greggman fix: https://github.com/greggman/three.js/commit/fde9f9917d6d8381f06bf22cdff766029d1761be
@@ -381,20 +347,20 @@ angular.module('myApp')
 			
 			switch ( event.keyCode ) {
 
-				case scope.keys.UP:
-					scope.pan( new THREE.Vector2( 0, scope.keyPanSpeed ) );
+				case configuration.controls.keys.UP:
+					scope.pan( new THREE.Vector2( 0, configuration.controls.keyPanSpeed ) );
 					needUpdate = true;
 					break;
-				case scope.keys.BOTTOM:
-					scope.pan( new THREE.Vector2( 0, -scope.keyPanSpeed ) );
+				case configuration.controls.keys.BOTTOM:
+					scope.pan( new THREE.Vector2( 0, -configuration.controls.keyPanSpeed ) );
 					needUpdate = true;
 					break;
-				case scope.keys.LEFT:
-					scope.pan( new THREE.Vector2( scope.keyPanSpeed, 0 ) );
+				case configuration.controls.keys.LEFT:
+					scope.pan( new THREE.Vector2( configuration.controls.keyPanSpeed, 0 ) );
 					needUpdate = true;
 					break;
-				case scope.keys.RIGHT:
-					scope.pan( new THREE.Vector2( -scope.keyPanSpeed, 0 ) );
+				case configuration.controls.keys.RIGHT:
+					scope.pan( new THREE.Vector2( -configuration.controls.keyPanSpeed, 0 ) );
 					needUpdate = true;
 					break;
 			}
@@ -410,12 +376,12 @@ angular.module('myApp')
 		
 		function touchstart( event ) {
 
-			if ( scope.enabled === false ) { return; }
+			if ( configuration.mouseControlsEnabled === false ) { return; }
 
 			switch ( event.touches.length ) {
 
 				case 1:	// one-fingered touch: rotate
-					if ( scope.noRotate === true ) { return; }
+					if ( configuration.controls.noRotate === true ) { return; }
 
 					state = STATE.TOUCH_ROTATE;
 
@@ -423,7 +389,7 @@ angular.module('myApp')
 					break;
 
 				case 2:	// two-fingered touch: dolly
-					if ( scope.noZoom === true ) { return; }
+					if ( configuration.controls.noZoom === true ) { return; }
 
 					state = STATE.TOUCH_DOLLY;
 
@@ -434,7 +400,7 @@ angular.module('myApp')
 					break;
 
 				case 3: // three-fingered touch: pan
-					if ( scope.noPan === true ) { return; }
+					if ( configuration.controls.noPan === true ) { return; }
 
 					state = STATE.TOUCH_PAN;
 
@@ -449,7 +415,7 @@ angular.module('myApp')
 
 		function touchmove( event ) {
 
-			if ( scope.enabled === false ) { return; }
+			if ( configuration.mouseControlsEnabled === false ) { return; }
 
 			event.preventDefault();
 			event.stopPropagation();
@@ -459,22 +425,22 @@ angular.module('myApp')
 			switch ( event.touches.length ) {
 
 				case 1: // one-fingered touch: rotate
-					if ( scope.noRotate === true ) { return; }
+					if ( configuration.controls.noRotate === true ) { return; }
 					if ( state !== STATE.TOUCH_ROTATE ) { return; }
 
 					rotateEnd.set( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY );
 					rotateDelta.subVectors( rotateEnd, rotateStart );
 
 					// rotating across whole screen goes 360 degrees around
-					scope.rotateLeft( 2 * Math.PI * rotateDelta.x / element.clientWidth * scope.rotateSpeed );
+					scope.rotateLeft( 2 * Math.PI * rotateDelta.x / element.clientWidth * configuration.controls.rotateSpeed );
 					// rotating up and down along whole screen attempts to go 360, but limited to 180
-					scope.rotateUp( 2 * Math.PI * rotateDelta.y / element.clientHeight * scope.rotateSpeed );
+					scope.rotateUp( 2 * Math.PI * rotateDelta.y / element.clientHeight * configuration.controls.rotateSpeed );
 
 					rotateStart.copy( rotateEnd );
 					break;
 
 				case 2: // two-fingered touch: dolly
-					if ( scope.noZoom === true ) { return; }
+					if ( configuration.controls.noZoom === true ) { return; }
 					if ( state !== STATE.TOUCH_DOLLY ) { return; }
 
 					var dx = event.touches[ 0 ].pageX - event.touches[ 1 ].pageX;
@@ -498,7 +464,7 @@ angular.module('myApp')
 					break;
 
 				case 3: // three-fingered touch: pan
-					if ( scope.noPan === true ) { return; }
+					if ( configuration.controls.noPan === true ) { return; }
 					if ( state !== STATE.TOUCH_PAN ) { return; }
 
 					panEnd.set( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY );
@@ -518,7 +484,7 @@ angular.module('myApp')
 
 		function touchend( /* event */ ) {
 
-			if ( scope.enabled === false ) { return; }
+			if ( configuration.mouseControlsEnabled === false ) { return; }
 
 			state = STATE.NONE;
 		}

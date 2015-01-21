@@ -18,7 +18,8 @@ angular.module('myApp')
 				SceneService.getScene().add(light);
 				SceneService.getLights().push(light);
 
-				var renderer = new THREE.WebGLRenderer( { antialias: true } );
+				var options = { antialias: true };
+				var renderer = Detector.webgl ? new THREE.WebGLRenderer(options) : new THREE.CanvasRenderer(options);
 				renderer.setClearColor( 0x000000 );
 				renderer.setSize( width, height );
 				
@@ -45,10 +46,7 @@ angular.module('myApp')
 					}, 
 				false);
 				
-				var geometry = new THREE.BoxGeometry( 1, 7, 1 );
-				
 				Object3DService.loadFromModel('models/horse.js');
-				
 				SceneService.render();
 				
 			}

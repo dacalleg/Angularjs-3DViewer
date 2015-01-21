@@ -1,20 +1,31 @@
 "use strict";
 
 angular.module('myApp')
-	.service('CameraObject3DService', function(CameraService,Object3DService) {
+	.service('CameraObject3DService', function(CameraService,Object3DService,ConfigurationService) {
 		this.centerView = function()
 		{
+			var configuration = ConfigurationService.getConfig();
 			var target = CameraService.getTarget();
-			var view_tween = new TWEEN.Tween({ x: target.x, y: target.y, z: target.z })
-            .to( { x: 0, y: 0, z: 0 }, 1000 )
-            .easing( TWEEN.Easing.Linear.None )
-            .onUpdate( function () {
-				target.setX(this.x);
-				target.setY(this.y);
-				target.setZ(this.z);
-                CameraService.update();
-            });
-			view_tween.start();
+			if(configuration.enableAnimation)
+			{
+				var view_tween = new TWEEN.Tween({ x: target.x, y: target.y, z: target.z })
+				.to( { x: 0, y: 0, z: 0 }, configuration.animationDuration )
+				.easing( TWEEN.Easing.Linear.None )
+				.onUpdate( function () {
+					target.setX(this.x);
+					target.setY(this.y);
+					target.setZ(this.z);
+					CameraService.update();
+				});
+				view_tween.start();
+			}
+			else
+			{
+				target.setX(0);
+				target.setY(0);
+				target.setZ(0);
+				CameraService.update();
+			}
 		}
 		
 		this.topView = function()
@@ -71,14 +82,24 @@ angular.module('myApp')
 		
 		this.changePosition = function(x,y,z)
 		{
-			var position_tween = new TWEEN.Tween({ x: CameraService.getCamera().position.x, y: CameraService.getCamera().position.y, z:CameraService.getCamera().position.z })
-            .to( { x: x, y: y, z: z }, 1000 )
-            .easing( TWEEN.Easing.Linear.None )
-            .onUpdate( function () {
-				CameraService.getCamera().position.set(this.x,this.y,this.z);
-                CameraService.update();
-            })
-			position_tween.start();
+			var configuration = ConfigurationService.getConfig();
+			var camera = CameraService.getCamera();
+			if(configuration.enableAnimation)
+			{
+				var position_tween = new TWEEN.Tween({ x: camera.position.x, y: camera.position.y, z: camera.position.z })
+				.to( { x: x, y: y, z: z }, ConfigurationService.getConfig().animationDuration )
+				.easing( TWEEN.Easing.Linear.None )
+				.onUpdate( function () {
+					CameraService.getCamera().position.set(this.x,this.y,this.z);
+					CameraService.update();
+				})
+				position_tween.start();
+			}
+			else
+			{
+				CameraService.getCamera().position.set(x,y,z);
+				CameraService.update();	
+			}
 		}
 	}
 );

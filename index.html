@@ -37,6 +37,19 @@
 							<li><a ng-click="showAxses()" href="#"><span class="glyphicon glyphicon-ok" ng-show="showaxes"></span> Visualizza Assi</a></li>
 						</ul>
 					</li>
+					<li class="dropdown" ng-controller="Object3DController">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Materiale <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a ng-click="toogleWireframe()" href="#"><span class="glyphicon glyphicon-ok" ng-show="showireframe"></span> Wireframe</a></li>
+						</ul>
+					</li>
+					<li class="dropdown" ng-controller="Object3DController">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Oggetto <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a ng-click="loadModel('models/tree.js')" href="#"> Albero</a></li>
+							<li><a ng-click="loadModel('models/horse.js')" href="#"> Cavallo</a></li>
+						</ul>
+					</li>
 				</ul>
 			</div>
 		</div>

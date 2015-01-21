@@ -38,4 +38,18 @@ angular.module('myApp')
 			SceneService.showAxses($scope.showaxes);
 		};
 	}
+	)
+	.controller("Object3DController", function ($scope, Object3DService) 
+	{
+		$scope.showireframe = Object3DService.wireframeVisible();
+		
+		$scope.toogleWireframe = function() {
+			$scope.showireframe = !$scope.showireframe;
+			Object3DService.setWireframe($scope.showireframe);
+		}
+		
+		$scope.loadModel = function(name) {
+			Object3DService.loadFromModel(name);
+		}
+	}
 );

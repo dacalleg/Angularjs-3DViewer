@@ -47,7 +47,7 @@ angular.module('myApp')
 				
 				var geometry = new THREE.BoxGeometry( 1, 7, 1 );
 				
-				Object3DService.loadGeometry(geometry);
+				Object3DService.loadFromModel('models/horse.js');
 				
 				SceneService.render();
 				

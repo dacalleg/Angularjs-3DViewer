@@ -33,7 +33,7 @@ angular.module('myApp')
 				renderer.domElement.addEventListener( 'mousewheel', CameraService.onMouseWheel, false );
 				renderer.domElement.addEventListener( 'DOMMouseScroll', CameraService.onMouseWheel, false ); // firefox
 
-				renderer.domElement.addEventListener( 'keydown', CameraService.onKeyDown, false );
+				window.addEventListener( 'keydown', CameraService.onKeyDown, false );
 
 				renderer.domElement.addEventListener( 'touchstart', CameraService.touchstart, false );
 				renderer.domElement.addEventListener( 'touchend', CameraService.touchend, false );

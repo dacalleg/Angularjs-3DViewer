@@ -11,7 +11,6 @@ angular.module('myApp')
 
 				CameraService.setCamera(new THREE.PerspectiveCamera( 45, width / height, 1, 10000 ));			
 				SceneService.setScene(new THREE.Scene());
-				SceneService.showAxses();
 				
 				var light = new THREE.DirectionalLight( 0xffffff );
 				light.position.set( 0, 0, 1 );
@@ -46,7 +45,6 @@ angular.module('myApp')
 					}, 
 				false);
 				
-				Object3DService.loadFromModel('models/horse.js');
 				SceneService.render();
 				
 			}

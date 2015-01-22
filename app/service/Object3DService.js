@@ -22,6 +22,8 @@ angular.module('myApp')
 			SceneService.getScene().add( mesh );
 			geometry.computeBoundingBox();
 			geometry.computeBoundingSphere();
+
+			$rootScope.$emit('objectLoaded');
 		}
 		this.loadFromModel = function(model)
 		{
@@ -38,6 +40,10 @@ angular.module('myApp')
 		this.wireframeVisible = function()
 		{
 			return material.wireframe;
+		}
+		this.getBoundingSphere = function()
+		{
+			return mesh.geometry.boundingSphere;
 		}
 		init();
 	}

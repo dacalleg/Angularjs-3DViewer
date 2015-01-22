@@ -50,6 +50,14 @@
 							<li><a ng-click="loadModel('models/horse.js')" href="#"> Cavallo</a></li>
 						</ul>
 					</li>
+					<li class="dropdown" ng-controller="OrbitController">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Controlli <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li><a ng-click="togglePan()" href="#"><span class="glyphicon glyphicon-ok" ng-hide="configuration.controls.noPan"></span> Pan</a></li>
+							<li><a ng-click="toggleZoom()" href="#"><span class="glyphicon glyphicon-ok" ng-hide="configuration.controls.noZoom"></span> Zoom</a></li>
+							<li><a ng-click="toggleRotate()" href="#"><span class="glyphicon glyphicon-ok" ng-hide="configuration.controls.noRotate"></span> Rotazione</a></li>
+						</ul>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -75,6 +83,7 @@
 	<script src="app/service/CameraService.js"></script>
 	<script src="app/service/CameraObject3DService.js"></script>
 	<script src="app/service/SceneService.js"></script>	
+	<script src="app/service/SceneObject3DService.js"></script>
 	<script src="app/service/Object3DService.js"></script>	
 	<script src="app/directive/SceneDirective.js"></script>	
 	

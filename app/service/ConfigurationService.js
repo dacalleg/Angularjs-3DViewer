@@ -6,6 +6,7 @@ angular.module('myApp')
 			animationDuration: 500,
 			enableAnimation: true,
 			mouseControlsEnabled: true,
+			axses: true,
 			controls: {
 				noZoom: false,
 				zoomSpeed: 2.0,

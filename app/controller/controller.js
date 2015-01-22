@@ -1,9 +1,9 @@
 "use strict";
 
 angular.module('myApp')
-	.controller("CameraController", function ($scope, CameraObject3DService, SceneService) 
+	.controller("CameraController", function ($scope, CameraObject3DService, SceneObject3DService) 
 	{
-		$scope.showaxes = SceneService.axsesVisible();
+		$scope.showaxes = SceneObject3DService.axsesVisible();
 		
 		$scope.centerView = function() {
 			CameraObject3DService.centerView();
@@ -35,10 +35,9 @@ angular.module('myApp')
 		
 		$scope.showAxses = function() {
 			$scope.showaxes = !$scope.showaxes;
-			SceneService.showAxses($scope.showaxes);
+			SceneObject3DService.showAxses($scope.showaxes);
 		};
-	}
-	)
+	})
 	.controller("Object3DController", function ($scope, Object3DService) 
 	{
 		$scope.showireframe = Object3DService.wireframeVisible();
@@ -51,5 +50,19 @@ angular.module('myApp')
 		$scope.loadModel = function(name) {
 			Object3DService.loadFromModel(name);
 		}
-	}
-);
+	})
+	.controller("OrbitController", function ($scope, ConfigurationService) 
+	{
+		$scope.configuration = ConfigurationService.getConfig();
+		
+		$scope.togglePan = function() {
+			$scope.configuration.controls.noPan = !$scope.configuration.controls.noPan;
+		}
+		$scope.toggleZoom = function() {
+			$scope.configuration.controls.noZoom = !$scope.configuration.controls.noZoom;
+		}
+		$scope.toggleRotate = function() {
+			$scope.configuration.controls.noRotate = !$scope.configuration.controls.noRotate;
+		}
+	})
+;

@@ -5,7 +5,7 @@ angular.module('myApp')
 		this.object = null;
 		this.domElement = null;
 		this.localElement = null;
-
+	
 		// API
 		var configuration = ConfigurationService.getConfig();
 
@@ -44,6 +44,8 @@ angular.module('myApp')
 
 		// events
 		var changeEvent = { type: 'change' };
+		var enableMouseMove = false;
+		var enableMouseUp = false;
 
 		this.rotateLeft = function ( angle ) {
 
@@ -237,80 +239,85 @@ angular.module('myApp')
 			}
 
 			// Greggman fix: https://github.com/greggman/three.js/commit/fde9f9917d6d8381f06bf22cdff766029d1761be
-			scope.domElement.addEventListener( 'mousemove', onMouseMove, false );
-			scope.domElement.addEventListener( 'mouseup', onMouseUp, false );
-
+			//scope.domElement.addEventListener( 'mousemove', onMouseMove, false );
+			//scope.domElement.addEventListener( 'mouseup', onMouseUp, false );
+			enableMouseMove = true;
+			enableMouseUp = true;
 		}
 
-		function onMouseMove( event ) {
+		this.onMouseMove = function( event ){
+			if(enableMouseMove)
+			{
+				if ( configuration.mouseControlsEnabled === false ) return;
 
-			if ( configuration.mouseControlsEnabled === false ) return;
+				event.preventDefault();
 
-			event.preventDefault();
+				var element = scope.domElement === document ? scope.domElement.body : scope.domElement;
 
-			var element = scope.domElement === document ? scope.domElement.body : scope.domElement;
+				if ( state === STATE.ROTATE ) {
 
-			if ( state === STATE.ROTATE ) {
+					if ( configuration.controls.noRotate === true ) return;
 
-				if ( configuration.controls.noRotate === true ) return;
+					rotateEnd.set( event.clientX, event.clientY );
+					rotateDelta.subVectors( rotateEnd, rotateStart );
 
-				rotateEnd.set( event.clientX, event.clientY );
-				rotateDelta.subVectors( rotateEnd, rotateStart );
+					// rotating across whole screen goes 360 degrees around
+					scope.rotateLeft( 2 * Math.PI * rotateDelta.x / element.clientWidth * configuration.controls.rotateSpeed );
+					// rotating up and down along whole screen attempts to go 360, but limited to 180
+					scope.rotateUp( 2 * Math.PI * rotateDelta.y / element.clientHeight * configuration.controls.rotateSpeed );
 
-				// rotating across whole screen goes 360 degrees around
-				scope.rotateLeft( 2 * Math.PI * rotateDelta.x / element.clientWidth * configuration.controls.rotateSpeed );
-				// rotating up and down along whole screen attempts to go 360, but limited to 180
-				scope.rotateUp( 2 * Math.PI * rotateDelta.y / element.clientHeight * configuration.controls.rotateSpeed );
+					rotateStart.copy( rotateEnd );
 
-				rotateStart.copy( rotateEnd );
+				} else if ( state === STATE.DOLLY ) {
 
-			} else if ( state === STATE.DOLLY ) {
+					if ( configuration.controls.noZoom === true ) return;
 
-				if ( configuration.controls.noZoom === true ) return;
+					dollyEnd.set( event.clientX, event.clientY );
+					dollyDelta.subVectors( dollyEnd, dollyStart );
 
-				dollyEnd.set( event.clientX, event.clientY );
-				dollyDelta.subVectors( dollyEnd, dollyStart );
+					if ( dollyDelta.y > 0 ) {
 
-				if ( dollyDelta.y > 0 ) {
+						scope.dollyIn();
 
-					scope.dollyIn();
+					} else {
 
-				} else {
+						scope.dollyOut();
 
-					scope.dollyOut();
+					}
+
+					dollyStart.copy( dollyEnd );
+
+				} else if ( state === STATE.PAN ) {
+
+					if ( configuration.controls.noPan === true ) return;
+
+					panEnd.set( event.clientX, event.clientY );
+					panDelta.subVectors( panEnd, panStart );
+					
+					scope.pan( panDelta );
+
+					panStart.copy( panEnd );
 
 				}
 
-				dollyStart.copy( dollyEnd );
-
-			} else if ( state === STATE.PAN ) {
-
-				if ( configuration.controls.noPan === true ) return;
-
-				panEnd.set( event.clientX, event.clientY );
-				panDelta.subVectors( panEnd, panStart );
-				
-				scope.pan( panDelta );
-
-				panStart.copy( panEnd );
-
+				// Greggman fix: https://github.com/greggman/three.js/commit/fde9f9917d6d8381f06bf22cdff766029d1761be
+				scope.update();
 			}
-
-			// Greggman fix: https://github.com/greggman/three.js/commit/fde9f9917d6d8381f06bf22cdff766029d1761be
-			scope.update();
-
 		}
 
-		function onMouseUp( /* event */ ) {
+		this.onMouseUp = function( event ) {
+			if(enableMouseUp)
+			{
+				if ( configuration.mouseControlsEnabled === false ) return;
 
-			if ( configuration.mouseControlsEnabled === false ) return;
+				// Greggman fix: https://github.com/greggman/three.js/commit/fde9f9917d6d8381f06bf22cdff766029d1761be
+				//scope.domElement.removeEventListener( 'mousemove', onMouseMove, false );
+				//scope.domElement.removeEventListener( 'mouseup', onMouseUp, false );
+				enableMouseMove = false;
+				enableMouseUp = false;
 
-			// Greggman fix: https://github.com/greggman/three.js/commit/fde9f9917d6d8381f06bf22cdff766029d1761be
-			scope.domElement.removeEventListener( 'mousemove', onMouseMove, false );
-			scope.domElement.removeEventListener( 'mouseup', onMouseUp, false );
-
-			state = STATE.NONE;
-
+				state = STATE.NONE;
+			}
 		}
 
 		this.onMouseWheel = function( event ) {

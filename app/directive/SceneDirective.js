@@ -29,6 +29,8 @@ angular.module('myApp')
 				
 				renderer.domElement.addEventListener( 'contextmenu', function (event) { event.preventDefault(); }, false );
 				renderer.domElement.addEventListener( 'mousedown', CameraService.onMouseDown, false );
+				renderer.domElement.addEventListener( 'mousemove', CameraService.onMouseMove, false );
+				renderer.domElement.addEventListener( 'mouseup', CameraService.onMouseUp, false );
 				renderer.domElement.addEventListener( 'mousewheel', CameraService.onMouseWheel, false );
 				renderer.domElement.addEventListener( 'DOMMouseScroll', CameraService.onMouseWheel, false ); // firefox
 

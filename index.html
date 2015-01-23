@@ -58,6 +58,9 @@
 							<li><a ng-click="toggleRotate()" href="#"><span class="glyphicon glyphicon-ok" ng-hide="configuration.controls.noRotate"></span> Rotazione</a></li>
 						</ul>
 					</li>
+					<li ng-controller="ConfigurationController">
+						<a href="#" ng-click="showModal()">Configurazioni</a>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -70,6 +73,36 @@
 	<div class="scene-container">
 		<div ng-webgl class="fullsize"></div>
 	</div>
+	<div class="modal fade" id="configmodal" ng-controller="ConfigurationController">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Configurazioni</h4>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<label for="zoomspeed">Velocità Animazioni(0 per disabilitare)</label>
+							<input id="zoomspeed" type="text" class="form-control" ng-model="configuration.animationDuration">
+						</div>
+						<div class="form-group">
+							<label for="zoomspeed">Velocità Zoom</label>
+							<input id="zoomspeed" type="text" class="form-control" ng-model="configuration.controls.zoomSpeed">
+						</div>
+						<div class="form-group">
+							<label for="rotationspeed">Velocità Rotazione</label>
+							<input id="rotationspeed" type="text" class="form-control" ng-model="configuration.controls.rotateSpeed">
+						</div>
+						<div class="form-group">
+							<label for="panspeed">Velocità Pan</label>
+							<input id="panspeed" type="text" class="form-control" ng-model="configuration.controls.keyPanSpeed">
+						</div>
+					</form>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
 	<script src="js/three/three.min.js"></script>
 	<script src="js/detector/detector.js"></script>
 	<script src="js/jquery/jquery-1.11.2.min.js"></script>

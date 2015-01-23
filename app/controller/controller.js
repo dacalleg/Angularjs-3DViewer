@@ -65,4 +65,12 @@ angular.module('myApp')
 			$scope.configuration.controls.noRotate = !$scope.configuration.controls.noRotate;
 		}
 	})
+	.controller("ConfigurationController", function ($scope, ConfigurationService) 
+	{
+		$scope.configuration = ConfigurationService.getConfig();
+		
+		$scope.showModal = function() {
+			$('#configmodal').modal('show');
+		}
+	})
 ;

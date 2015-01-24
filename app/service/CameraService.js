@@ -381,7 +381,7 @@ angular.module('myApp')
 
 		}
 		
-		function touchstart( event ) {
+		this.touchstart = function( event ) {
 
 			if ( configuration.mouseControlsEnabled === false ) { return; }
 
@@ -420,7 +420,7 @@ angular.module('myApp')
 			}
 		}
 
-		function touchmove( event ) {
+		this.touchmove = function( event ) {
 
 			if ( configuration.mouseControlsEnabled === false ) { return; }
 
@@ -486,10 +486,11 @@ angular.module('myApp')
 					state = STATE.NONE;
 
 			}
+			scope.update();
 
 		}
 
-		function touchend( /* event */ ) {
+		this.touchend = function( event ) {
 
 			if ( configuration.mouseControlsEnabled === false ) { return; }
 

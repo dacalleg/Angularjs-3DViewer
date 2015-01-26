@@ -6,7 +6,10 @@ angular.module('myApp')
 		var lights = new Array();
 		this.setScene = function(_scene) { scene = _scene; }
 		this.getScene = function() { return scene; }
-		this.setDomElement = function(_domElement) { domElement = _domElement; }
+		this.setDomElement = function(_domElement) 
+		{ 
+			domElement = _domElement; 
+		}
 		this.getDomElement = function() { return domElement; }
 		this.setRenderer = function(_renderer) { renderer = _renderer; }
 		this.getRenderer = function() { return renderer; }
@@ -28,12 +31,12 @@ angular.module('myApp')
 			mouse = new THREE.Vector2();
 		}
 		this.onMouseMove = function( event ) {
-			mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-			mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+			mouse.x = ( (event.clientX ) / domElement.width ) * 2 - 1;
+			mouse.y = - ( (event.clientY - 42 ) / domElement.height) * 2 + 1;
 			raycaster.setFromCamera( mouse, CameraService.getCamera());
 			var intersects = raycaster.intersectObjects( scene.children );
 			if(intersects.length)
-				$rootScope.$emit('onMouseMoveRaycaster', raycaster);
+				$rootScope.$emit('onMouseMoveRaycaster', intersects);
 		}
 		init();
 	}

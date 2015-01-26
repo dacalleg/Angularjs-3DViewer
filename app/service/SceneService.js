@@ -31,6 +31,9 @@ angular.module('myApp')
 			mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 			mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 			raycaster.setFromCamera( mouse, CameraService.getCamera());
+			var intersects = raycaster.intersectObjects( scene.children );
+			if(intersects.length)
+				$rootScope.$emit('onMouseMoveRaycaster', raycaster);
 		}
 		init();
 	}

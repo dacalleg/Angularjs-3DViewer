@@ -12,11 +12,10 @@ angular.module('myApp')
 				CameraService.setCamera(new THREE.PerspectiveCamera( 45, width / height, 1, 10000 ));			
 				SceneService.setScene(new THREE.Scene());
 				
-				var light = new THREE.DirectionalLight( 0xffffff );
-				light.position.set( 0, 0, 1 );
+				var light = new THREE.AmbientLight( 0x404040 );
 				SceneService.getScene().add(light);
 				SceneService.getLights().push(light);
-
+				
 				var options = { antialias: true };
 				var renderer = Detector.webgl ? new THREE.WebGLRenderer(options) : new THREE.CanvasRenderer(options);
 				renderer.setClearColor( 0x000000 );

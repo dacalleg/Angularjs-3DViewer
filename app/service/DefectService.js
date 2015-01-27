@@ -9,16 +9,27 @@ angular.module('myApp')
 		}
 		$rootScope.$on('onMouseMoveRaycaster', function(event, data) 
 		{
-			sphere.position.setX(data[0].point.x);
-			sphere.position.setY(data[0].point.y);
-			sphere.position.setZ(data[0].point.z);
+			var intersection = getFirstIntersection(data);
+			if(intersection)
+			{
+				sphere.position.setX(intersection.point.x);
+				sphere.position.setY(intersection.point.y);
+				sphere.position.setZ(intersection.point.z);
+			}
 		});
 		this.loadDefects = function()
 		{
-			var geometry = new THREE.SphereGeometry( 1, 32, 32 );
-			var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+			var geometry = new THREE.SphereGeometry( 5, 32, 32 );
+			var material = new THREE.MeshNormalMaterial( {shading: THREE.SmoothShading} );
 			sphere = new THREE.Mesh( geometry, material );
 			SceneService.getScene().add( sphere );
+		}
+		var getFirstIntersection = function(intersects)
+		{
+			for(var i=0;i<intersects.length;i++)
+				if(intersects[i].object !== sphere)
+					return intersects[i];
+			return null;
 		}
 		init();
 	}

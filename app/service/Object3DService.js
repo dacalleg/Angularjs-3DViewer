@@ -7,7 +7,7 @@ angular.module('myApp')
 		var init = function()
 		{
 			loader = new THREE.JSONLoader();
-			material = new THREE.MeshNormalMaterial({color: 0x00ff00});
+			material = new THREE.MeshNormalMaterial( {shading: THREE.SmoothShading} );
 		}
 		this.loadGeometry = function(geometry)
 		{

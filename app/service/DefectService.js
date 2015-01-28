@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module('myApp')
-	.service('DefectService', function($rootScope,SceneService) {
+	.service('DefectService', function($rootScope,SceneService,Object3DService) {
 		var defects,sphere;
 		var init = function()
 		{

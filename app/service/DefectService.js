@@ -19,9 +19,8 @@ angular.module('myApp')
 		});
 		this.loadDefects = function()
 		{
-			var geometry = new THREE.SphereGeometry( 5, 32, 32 );
 			var material = new THREE.MeshNormalMaterial( {shading: THREE.SmoothShading} );
-			sphere = new THREE.Mesh( geometry, material );
+			sphere = new THREE.Defect(material);
 			SceneService.getScene().add( sphere );
 		}
 		var getFirstIntersection = function(intersects)

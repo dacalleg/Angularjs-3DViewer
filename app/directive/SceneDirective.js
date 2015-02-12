@@ -1,8 +1,12 @@
 "use strict";
 
 angular.module('myApp')
-	.directive('ngWebgl', function(SceneService, CameraService, Object3DService, DefectService) {
+	.directive('ngWebgl', function(SceneService, CameraService, Object3DService, DefectService, ClippingService) {
 		return {
+			scope:{
+				process: '=',
+				master: '='
+			},
 			restrict: 'A',
 			link: function (scope, element, attrs)
 			{			
@@ -49,7 +53,6 @@ angular.module('myApp')
 				
 				DefectService.loadDefects();
 				SceneService.render();
-				
 			}
 		};
 	});

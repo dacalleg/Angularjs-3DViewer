@@ -48,6 +48,7 @@
 						<ul class="dropdown-menu" role="menu">
 							<li><a ng-click="loadModel('models/tree.js')" href="#"> Albero</a></li>
 							<li><a ng-click="loadModel('models/horse.js')" href="#"> Cavallo</a></li>
+							<li><a ng-click="loadModel('models/cast.stl')" href="#"> Cast</a></li>
 						</ul>
 					</li>
 					<li class="dropdown" ng-controller="OrbitController">
@@ -106,6 +107,8 @@
 	<script src="js/three/three.min.js"></script>
 	<script src="js/three/CanvasRenderer.js"></script>
 	<script src="js/three/Projector.js"></script>
+	<script src="js/three/STLLoader.js"></script>
+	<script src="js/csg/ThreeCSG.js"></script>
 	<script src="js/detector/detector.js"></script>
 	<script src="js/jquery/jquery-1.11.2.min.js"></script>
 	<script src="js/bootstrap/bootstrap.min.js"></script>
@@ -122,7 +125,8 @@
 	<script src="app/service/SceneService.js"></script>	
 	<script src="app/service/SceneObject3DService.js"></script>
 	<script src="app/service/Object3DService.js"></script>	
-	<script src="app/service/DefectService.js"></script>	
+	<script src="app/service/DefectService.js"></script>
+	<script src="app/service/ClippingService.js"></script>
 	<script src="app/directive/SceneDirective.js"></script>	
 	
 </body>

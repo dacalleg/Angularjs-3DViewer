@@ -46,8 +46,8 @@
 					<li class="dropdown" ng-controller="Object3DController">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Oggetto <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
-							<li><a ng-click="loadModel('models/tree.js')" href="#"> Albero</a></li>
-							<li><a ng-click="loadModel('models/horse.js')" href="#"> Cavallo</a></li>
+							<li><a ng-click="loadModel('models/tree.json')" href="#"> Albero</a></li>
+							<li><a ng-click="loadModel('models/horse.json')" href="#"> Cavallo</a></li>
 							<li><a ng-click="loadModel('models/cast.stl')" href="#"> Cast</a></li>
 						</ul>
 					</li>
@@ -61,6 +61,9 @@
 					</li>
 					<li ng-controller="ConfigurationController">
 						<a href="#" ng-click="showModal()">Configurazioni</a>
+					</li>
+					<li ng-controller="ClippingController">
+						<a href="#" ng-click="test()">Test</a>
 					</li>
 				</ul>
 			</div>
@@ -108,7 +111,9 @@
 	<script src="js/three/CanvasRenderer.js"></script>
 	<script src="js/three/Projector.js"></script>
 	<script src="js/three/STLLoader.js"></script>
+	<script src="js/three/TransformControls.js"></script>
 	<script src="js/csg/ThreeCSG.js"></script>
+
 	<script src="js/detector/detector.js"></script>
 	<script src="js/jquery/jquery-1.11.2.min.js"></script>
 	<script src="js/bootstrap/bootstrap.min.js"></script>

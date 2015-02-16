@@ -16,7 +16,7 @@ angular.module('myApp')
 			_axes.add( buildAxis(new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, 0, radius ), 0x0000FF, false) ); // +Z
 			_axes.add( buildAxis(new THREE.Vector3( 0, 0, 0 ), new THREE.Vector3( 0, 0, -radius ), 0x0000FF, true)  ); // -Z
 			return _axes;
-		}
+		};
 		var buildAxis = function( src, dst, colorHex, dashed ) 
 		{
 			var geom = new THREE.Geometry(),
@@ -34,13 +34,13 @@ angular.module('myApp')
 
 			var _axes = new THREE.Line( geom, mat, THREE.LinePieces );
 			return _axes;
-		}
+		};
 		this.showAxses = function(value)
 		{
 			value = typeof value !== 'undefined' ? value : true;
 			if(axes)
 			{
-				SceneService.getScene().remove(axes)
+				SceneService.getScene().remove(axes);
 				axes = null;
 			}
 			if(value)
@@ -48,17 +48,17 @@ angular.module('myApp')
 				axes = buildAxses();
 				SceneService.getScene().add(axes);
 			}
-		}
+		};
 		this.axsesVisible = function()
 		{
 			return axes !== 'undefined' && axes !== null;
-		}
+		};
 		
 		$rootScope.$on('objectLoaded', function(event, data) 
 		{ 
 			if(that.axsesVisible())
 			{
-				SceneService.getScene().remove(axes)
+				SceneService.getScene().remove(axes);
 				axes = buildAxses();
 				SceneService.getScene().add(axes);
 			}

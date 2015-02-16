@@ -27,7 +27,7 @@ angular.module('myApp')
 				target.setZ(0);
 				CameraService.update();
 			}
-		}
+		};
 		
 		this.topView = function()
 		{
@@ -36,7 +36,7 @@ angular.module('myApp')
 			var tween = this.changePosition(0,0,distanceFactor,false);
 			tween.onComplete(function(){that.changePosition(0,distanceFactor,0,true)});
 			tween.start();
-		}
+		};
 		
 		this.bottomView = function()
 		{
@@ -45,7 +45,7 @@ angular.module('myApp')
 			var tween = this.changePosition(0,0,distanceFactor,false);
 			tween.onComplete(function(){that.changePosition(0,-distanceFactor,0,true)});
 			tween.start();
-		}
+		};
 		
 		this.frontView = function()
 		{
@@ -54,14 +54,14 @@ angular.module('myApp')
 			var tween = this.changePosition(0,0,distanceFactor,false);
 			tween.onComplete(function(){that.changePosition(0,0,-distanceFactor,true)});
 			tween.start();
-		}
+		};
 		
 		this.backView = function()
 		{
 			var distanceFactor = getDistanceFactor();
 			this.centerView();
 			var tween = this.changePosition(0,0,distanceFactor,true);
-		}
+		};
 		this.leftView = function()
 		{
 			var distanceFactor = getDistanceFactor();
@@ -69,7 +69,7 @@ angular.module('myApp')
 			var tween = this.changePosition(0,0,distanceFactor,false);
 			tween.onComplete(function(){that.changePosition(-distanceFactor,0,0,true)});
 			tween.start();
-		}
+		};
 		this.rightView = function()
 		{
 			var distanceFactor = getDistanceFactor();
@@ -77,13 +77,13 @@ angular.module('myApp')
 			var tween = this.changePosition(0,0,distanceFactor,false);
 			tween.onComplete(function(){that.changePosition(distanceFactor,0,0,true)});
 			tween.start();
-		}
+		};
 		this.prospectiveView = function()
 		{
 			var distanceFactor = getDistanceFactor();
 			this.centerView();
 			this.changePosition(distanceFactor,distanceFactor,distanceFactor,true);
-		}
+		};
 		this.changePosition = function(x,y,z,start)
 		{
 			var configuration = ConfigurationService.getConfig();
@@ -95,18 +95,18 @@ angular.module('myApp')
 			.onUpdate( function () {
 				CameraService.getCamera().position.set(this.x,this.y,this.z);
 				CameraService.update();
-			})
+			});
 			if(start)
 				position_tween.start();
 			return position_tween;
-		}
+		};
 		var getDistanceFactor = function()
 		{
 			var mesh = Object3DService.getMesh();
 			var radius = mesh.geometry.boundingSphere.radius;
 			var distanceFactor = Math.abs( CameraService.getCamera().aspect * radius / Math.sin( CameraService.getCamera().fov / 2 ));
 			return distanceFactor;
-		}
+		};
 		
 		$rootScope.$on('objectLoaded', function(event, data) 
 		{ 

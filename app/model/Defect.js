@@ -9,7 +9,7 @@ THREE.Defect = function(material) {
 	this.getValue = function()
 	{
 		return this.geometry.boundingSphere.radius;
-	}
+	};
 	this.setValue = function(_value)
 	{
 		var scale = _value / this.geometry.boundingSphere.radius;
@@ -18,7 +18,7 @@ THREE.Defect = function(material) {
 		this.scale.y = scale;
 		this.scale.z = scale;
 	}
-}
+};
 
 THREE.Defect.prototype = new mesh();
 THREE.Defect.prototype.constructor = THREE.Mesh;

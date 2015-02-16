@@ -243,7 +243,7 @@ angular.module('myApp')
 			//scope.domElement.addEventListener( 'mouseup', onMouseUp, false );
 			enableMouseMove = true;
 			enableMouseUp = true;
-		}
+		};
 
 		this.onMouseMove = function( event ){
 			if(enableMouseMove)
@@ -303,7 +303,7 @@ angular.module('myApp')
 				// Greggman fix: https://github.com/greggman/three.js/commit/fde9f9917d6d8381f06bf22cdff766029d1761be
 				scope.update();
 			}
-		}
+		};
 
 		this.onMouseUp = function( event ) {
 			if(enableMouseUp)
@@ -318,7 +318,7 @@ angular.module('myApp')
 
 				state = STATE.NONE;
 			}
-		}
+		};
 
 		this.onMouseWheel = function( event ) {
 
@@ -340,7 +340,7 @@ angular.module('myApp')
 			
 			scope.update();
 
-		}
+		};
 
 		this.onKeyDown = function( event ) {
 
@@ -379,7 +379,7 @@ angular.module('myApp')
 
 			}
 
-		}
+		};
 		
 		this.touchstart = function( event ) {
 
@@ -418,7 +418,7 @@ angular.module('myApp')
 					state = STATE.NONE;
 
 			}
-		}
+		};
 
 		this.touchmove = function( event ) {
 
@@ -488,14 +488,14 @@ angular.module('myApp')
 			}
 			scope.update();
 
-		}
+		};
 
 		this.touchend = function( event ) {
 
 			if ( configuration.mouseControlsEnabled === false ) { return; }
 
 			state = STATE.NONE;
-		}
+		};
 		
 		this.setCamera = function(_camera)
 		{
@@ -504,26 +504,27 @@ angular.module('myApp')
 			this.object.position.x = 10;
 			this.object.position.y = 10;
 			this.object.lookAt(new THREE.Vector3( 0, 0, 0 ));
-		}
+			$rootScope.$emit("onCameraLoaded");
+		};
 		
 		this.getCamera = function()
 		{
 			return this.object;
-		}
+		};
 		
 		this.setDomElement = function(_domElement) {
 			this.domElement = _domElement;
-		}
+		};
 		
 		this.setLocalElement = function(_localElement) {
 			this.localElement = _localElement;
-		}
+		};
 		
 		this.onResize = function(width,height)
 		{
 			this.object.aspect = width / height;
 			this.object.updateProjectionMatrix();
-		}
+		};
 
 		this.getTarget = function()
 		{

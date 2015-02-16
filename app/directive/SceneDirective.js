@@ -12,26 +12,28 @@ angular.module('myApp')
 			{			
 				var width = element[0].clientWidth;
 				var height = element[0].clientHeight;
+				var options = { antialias: true };
 
-				CameraService.setCamera(new THREE.PerspectiveCamera( 45, width / height, 1, 10000 ));			
+				var renderer = Detector.webgl ? new THREE.WebGLRenderer(options) : new THREE.CanvasRenderer(options);
+				renderer.setClearColor( 0x000000 );
+				renderer.setSize( width, height );
 				SceneService.setScene(new THREE.Scene());
+
+				element[0].appendChild( renderer.domElement );
+				SceneService.setRenderer(renderer);
+
+				CameraService.setCamera(new THREE.PerspectiveCamera( 45, width / height, 1, 10000 ));
+				CameraService.setDomElement(renderer.domElement);
+
+
 				
 				var light = new THREE.AmbientLight( 0x404040 );
 				SceneService.getScene().add(light);
 				SceneService.getLights().push(light);
-				
-				var options = { antialias: true };
-				var renderer = Detector.webgl ? new THREE.WebGLRenderer(options) : new THREE.CanvasRenderer(options);
-				renderer.setClearColor( 0x000000 );
-				renderer.setSize( width, height );
-				
-				element[0].appendChild( renderer.domElement );
-				SceneService.setRenderer(renderer);
-				SceneService.setDomElement(renderer.domElement);
-				CameraService.setDomElement(renderer.domElement);
-				
+
 				renderer.domElement.addEventListener( 'contextmenu', function (event) { event.preventDefault(); }, false );
 				renderer.domElement.addEventListener( 'mousedown', CameraService.onMouseDown, false );
+				renderer.domElement.addEventListener( 'mousedown', SceneService.onMouseDown, false );
 				renderer.domElement.addEventListener( 'mousemove', CameraService.onMouseMove, false );
 				renderer.domElement.addEventListener( 'mousemove', SceneService.onMouseMove, false );
 				renderer.domElement.addEventListener( 'mouseup', CameraService.onMouseUp, false );

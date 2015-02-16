@@ -45,7 +45,7 @@ angular.module('myApp')
 		$scope.toogleWireframe = function() {
 			$scope.showireframe = !$scope.showireframe;
 			Object3DService.setWireframe($scope.showireframe);
-		}
+		};
 		
 		$scope.loadModel = function(name) {
 			Object3DService.loadFromModel(name);
@@ -57,10 +57,10 @@ angular.module('myApp')
 		
 		$scope.togglePan = function() {
 			$scope.configuration.controls.noPan = !$scope.configuration.controls.noPan;
-		}
+		};
 		$scope.toggleZoom = function() {
 			$scope.configuration.controls.noZoom = !$scope.configuration.controls.noZoom;
-		}
+		};
 		$scope.toggleRotate = function() {
 			$scope.configuration.controls.noRotate = !$scope.configuration.controls.noRotate;
 		}
@@ -71,6 +71,12 @@ angular.module('myApp')
 		
 		$scope.showModal = function() {
 			$('#configmodal').modal('show');
+		}
+	})
+	.controller("ClippingController", function ($scope, ClippingService)
+	{
+		$scope.test = function() {
+			ClippingService.showXPlaneClip();
 		}
 	})
 ;
